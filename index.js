@@ -6,7 +6,7 @@ let importantId = document.querySelector("#importantId");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  console.log("clicked");
+  alert("Your question has been submitted!!!");
   db.collection("students")
     .add({
       name: form.name.value,
@@ -14,7 +14,7 @@ form.addEventListener("submit", (e) => {
       answer: form.answer.value,
     })
     .then((docRef) => {
-      alert("Your question has been submitted!!!");
+      console.log("Your question has been submitted!!!");
     })
     .catch((error) => {
       console.error("Error adding document: ", error);
