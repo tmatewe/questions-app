@@ -14,7 +14,7 @@ form.addEventListener("submit", (e) => {
       answer: form.answer.value,
     })
     .then((docRef) => {
-      console.log("Document written with ID: ", docRef.id);
+      alert("Your question has been submitted!!!");
     })
     .catch((error) => {
       console.error("Error adding document: ", error);
@@ -78,7 +78,7 @@ update.addEventListener("click", (e) => {
       capital: true,
     })
     .then(() => {
-      console.log("Document successfully updated!");
+      alert("Document successfully updated!");
     })
     .catch((error) => {
       // The document probably doesn't exist.
