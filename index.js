@@ -113,7 +113,10 @@ update.addEventListener("click", (e) => {
   // Set the "capital" field of the city 'DC'
   return washingtonRef
     .update({
+      name: form.name.value,
+      question: form.question.value,
       answer: form.answer.value,
+
       capital: true,
     })
     .then(() => {
