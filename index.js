@@ -108,10 +108,8 @@ solutionSection.addEventListener("click", (e) => {
 });
 
 update.addEventListener("click", (e) => {
-  var washingtonRef = db.collection("students").doc(importantId.value);
-
-  // Set the "capital" field of the city 'DC'
-  return washingtonRef
+  db.collection("students")
+    .doc(importantId.value)
     .update({
       name: form.name.value,
       question: form.question.value,
@@ -126,4 +124,5 @@ update.addEventListener("click", (e) => {
       // The document probably doesn't exist.
       console.error("Error updating document: ", error);
     });
+  (form.name.value = ""), (form.question.value = ""), (form.answer.value = "");
 });
