@@ -3,6 +3,7 @@ let allQuestins = document.querySelector("#allQuestions");
 let solutionSection = document.querySelector(".main-solution-section");
 let update = document.querySelector("#update");
 let importantId = document.querySelector("#importantId");
+const divUsers = document.querySelector(".div-users");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -19,22 +20,57 @@ form.addEventListener("submit", (e) => {
     .catch((error) => {
       console.error("Error adding document: ", error);
     });
-});
 
-db.collection("students")
-  .get()
-  .then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
+  (form.name.value = ""), (form.question.value = ""), (form.answer.value = "");
+});
+//getting all students
+// db.collection("students")
+//   .get()
+//   .then((querySnapshot) => {
+//     querySnapshot.forEach((doc) => {
+//       allQuestins.innerHTML += `<div class="solution-section" data-id=${
+//         doc.id
+//       }><h5>${doc.data().name}</h5>Question:<p>${
+//         doc.data().question
+//       }<p/>Answer:<p>${
+//         doc.data().answer
+//       }</p></br></br><button class="btn btn-danger btn-sm">delete</button><span class="btn btn-info btn-sm">Reply</span></div>`;
+//       console.log(`${doc.id} => ${doc.data()}`);
+//     });
+//   });
+
+//real time databses
+db.collection("students").onSnapshot((snapshot) => {
+  snapshot.docChanges().forEach((change) => {
+    console.log(change.type);
+    if (change.type === "added") {
       allQuestins.innerHTML += `<div class="solution-section" data-id=${
-        doc.id
-      }><h5>${doc.data().name}</h5>Question:<p>${
-        doc.data().question
+        change.doc.id
+      }><h5>${change.doc.data().name}</h5>Question:<p>${
+        change.doc.data().question
       }<p/>Answer:<p>${
-        doc.data().answer
-      }</p></br></br><button class="btn btn-danger btn-sm">delete</button><span class="btn btn-info btn-sm">Reply</span></div>`;
-      console.log(`${doc.id} => ${doc.data()}`);
-    });
+        change.doc.data().answer
+      }</p></br></br><button class="btn btn-danger btn-sm">delete</button><span class="btn btn-info btn-sm">Edit</span></div>`;
+      console.log(`${change.doc.id} => ${change.doc.data()}`);
+    }
+    if (change.type === "removed") {
+      let div = document.querySelector(`[data-id='${change.doc.id}']`);
+      divUsers.removeChild(div);
+    }
+    if (change.type === "modified") {
+      let div = document.querySelector(`[data-id='${change.doc.id}']`);
+      divUsers.removeChild(div);
+      allQuestins.innerHTML += `<div class="solution-section" data-id=${
+        change.doc.id
+      }><h5>${change.doc.data().name}</h5>Question:<p>${
+        change.doc.data().question
+      }<p/>Answer:<p>${
+        change.doc.data().answer
+      }</p></br></br><button class="btn btn-danger btn-sm">delete</button><span class="btn btn-info btn-sm">Edit</span></div>`;
+      console.log(`${change.doc.id} => ${change.doc.data()}`);
+    }
   });
+});
 
 solutionSection.addEventListener("click", (e) => {
   console.log(e.target.parentElement);
@@ -64,6 +100,9 @@ solutionSection.addEventListener("click", (e) => {
               (form.answer.value = doc.data().answer);
           });
         });
+      (form.name.value = ""),
+        (form.question.value = ""),
+        (form.answer.value = "");
     }
   }
 });
