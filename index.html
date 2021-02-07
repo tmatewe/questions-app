@@ -15,7 +15,7 @@
   <body>
     <div class="container">
       <h4>Q&A App</h4>
-      <form action="">
+      <form action="" id="formAdd">
         <input
           type="text"
           id="name"
@@ -23,23 +23,52 @@
         /><br /><br />
         <textarea
           id="question"
-          cols="120"
-          rows="5"
+          cols="100"
+          rows="10"
           placeholder="Paste your question here"
-        ></textarea
-        ><br />
+        ></textarea>
         <textarea
           id="answer"
-          cols="120"
-          rows="5"
-          placeholder="Leave this section blank"
-        ></textarea
-        ><br />
-        <button class="btn btn-outline-dark">Submit</button><br /><br />
+          cols="100"
+          rows="2"
+          placeholder="Leave this part blank"
+        ></textarea>
+        <br />
+        <button class="btn btn-outline-dark">Submit</button><br />
       </form>
-      <button class="btn btn-outline-info" id="update">update</button
-      ><br /><br />
-      <h4>Questions & Answers Section</h4>
+      <!-- Trigger/Open The Modal -->
+      <!-- <button id="myBtn">Open Modal</button> -->
+
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <form action="" id="formUpdate">
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your name"
+            /><br /><br />
+            <textarea
+              id="question"
+              cols="95"
+              rows="3"
+              placeholder="Paste your question here"
+            ></textarea
+            ><br />
+            <textarea
+              name="answer"
+              cols="95"
+              rows="2"
+              placeholder="Leave this section blank"
+            ></textarea>
+            <button class="btn btn-outline-info" id="update">Submit</button>
+          </form>
+        </div>
+      </div>
+      <br /><br />
+      <h4>Questions & Answers</h4>
       <div id="importantId"></div>
       <div class="main-solution-section div-users" id="allQuestions"></div>
       <!-- The core Firebase JS SDK is always required and must be listed first -->

@@ -1,27 +1,62 @@
-let form = document.querySelector("form");
+let form = document.querySelector("#formAdd");
+let formUpdate = document.querySelector("#formUpdate");
 let allQuestins = document.querySelector("#allQuestions");
 let solutionSection = document.querySelector(".main-solution-section");
 let update = document.querySelector("#update");
 let importantId = document.querySelector("#importantId");
 const divUsers = document.querySelector(".div-users");
 
+//modal
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+//var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+// btn.onclick = function () {
+//   modal.style.display = "block";
+// };
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+};
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
+//adding questions
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  alert("Your question has been submitted!!!");
-  db.collection("students")
-    .add({
-      name: form.name.value,
-      question: form.question.value,
-      answer: form.answer.value,
-    })
-    .then((docRef) => {
-      console.log("Your question has been submitted!!!");
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-    });
+  if (form.name.value == "" || form.question.value == "") {
+    alert("No blanks allowed");
+  } else {
+    alert("Your question has been submitted!!!");
+    db.collection("students")
+      .add({
+        name: form.name.value,
+        question: form.question.value,
+        answer: form.answer.value,
+      })
+      .then((docRef) => {
+        console.log("Your question has been submitted!!!");
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
 
-  (form.name.value = ""), (form.question.value = ""), (form.answer.value = "");
+    (form.name.value = ""),
+      (form.question.value = ""),
+      (form.answer.value = "");
+  }
 });
 //getting all students
 // db.collection("students")
@@ -50,7 +85,7 @@ db.collection("students").onSnapshot((snapshot) => {
         change.doc.data().question
       }<p/>Answer:<p>${
         change.doc.data().answer
-      }</p></br></br><button class="btn btn-danger btn-sm">delete</button><span class="btn btn-info btn-sm">Edit</span></div>`;
+      }</p><button class="btn btn-danger btn-sm">delete</button><span class="btn btn-info btn-sm" id="myBtn">Edit</span></div>`;
       console.log(`${change.doc.id} => ${change.doc.data()}`);
     }
     if (change.type === "removed") {
@@ -66,7 +101,7 @@ db.collection("students").onSnapshot((snapshot) => {
         change.doc.data().question
       }<p/>Answer:<p>${
         change.doc.data().answer
-      }</p></br></br><button class="btn btn-danger btn-sm">delete</button><span class="btn btn-info btn-sm">Edit</span></div>`;
+      }</p><button class="btn btn-danger btn-sm">delete</button><span class="btn btn-info btn-sm" id="myBtn">Edit</span></div>`;
       console.log(`${change.doc.id} => ${change.doc.data()}`);
     }
   });
@@ -88,32 +123,34 @@ solutionSection.addEventListener("click", (e) => {
       });
   }
   if (e.target.tagName === "SPAN") {
+    modal.style.display = "block";
     importantId.value = id;
     console.log(importantId.value);
-    if (id) {
-      db.collection("students")
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            (form.name.value = doc.data().name),
-              (form.question.value = doc.data().question),
-              (form.answer.value = doc.data().answer);
-          });
+    db.collection("students")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (id === doc.id) {
+            (formUpdate.name.value = doc.data().name),
+              (formUpdate.question.value = doc.data().question),
+              (formUpdate.answer.value = doc.data().answer);
+          }
         });
-      (form.name.value = ""),
-        (form.question.value = ""),
-        (form.answer.value = "");
-    }
+      });
+    (formUpdate.name.value = ""),
+      (formUpdate.question.value = ""),
+      (formUpdate.answer.value = "");
   }
 });
 
 update.addEventListener("click", (e) => {
+  e.preventDefault();
   db.collection("students")
     .doc(importantId.value)
     .update({
-      name: form.name.value,
-      question: form.question.value,
-      answer: form.answer.value,
+      name: formUpdate.name.value,
+      question: formUpdate.question.value,
+      answer: formUpdate.answer.value,
 
       capital: true,
     })
@@ -124,5 +161,8 @@ update.addEventListener("click", (e) => {
       // The document probably doesn't exist.
       console.error("Error updating document: ", error);
     });
-  (form.name.value = ""), (form.question.value = ""), (form.answer.value = "");
+  (formUpdate.name.value = ""),
+    (formUpdate.question.value = ""),
+    (formUpdate.answer.value = "");
+  modal.style.display = "none";
 });
