@@ -85,7 +85,7 @@ db.collection("students").onSnapshot((snapshot) => {
         change.doc.data().question
       }<p/>Answer:<p>${
         change.doc.data().answer
-      }</p><button class="btn btn-danger btn-sm">delete</button><span class="btn btn-info btn-sm" id="myBtn">Edit</span></div>`;
+      }</p><button class="btn btn-danger btn-sm">Delete</button><span class="btn btn-info btn-sm" id="myBtn">Edit</span></div>`;
       console.log(`${change.doc.id} => ${change.doc.data()}`);
     }
     if (change.type === "removed") {
@@ -101,7 +101,7 @@ db.collection("students").onSnapshot((snapshot) => {
         change.doc.data().question
       }<p/>Answer:<p>${
         change.doc.data().answer
-      }</p><button class="btn btn-danger btn-sm">delete</button><span class="btn btn-info btn-sm" id="myBtn">Edit</span></div>`;
+      }</p><button class="btn btn-danger btn-sm">Delete</button><span class="btn btn-info btn-sm" id="myBtn">Edit</span></div>`;
       console.log(`${change.doc.id} => ${change.doc.data()}`);
     }
   });

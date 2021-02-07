@@ -49,3 +49,7 @@ span {
 #answer {
   display: none;
 }
+
+.btn {
+  width: 100px;
+}
