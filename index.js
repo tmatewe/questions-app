@@ -6,20 +6,16 @@ let update = document.querySelector("#update");
 let importantId = document.querySelector("#importantId");
 const divUsers = document.querySelector(".div-users");
 
+//sample
+
+let sample = document.querySelector("#question");
+console.log(sample);
 //modal
 // Get the modal
 var modal = document.getElementById("myModal");
 
-// Get the button that opens the modal
-//var btn = document.getElementById("myBtn");
-
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal
-// btn.onclick = function () {
-//   modal.style.display = "block";
-// };
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
@@ -74,18 +70,32 @@ form.addEventListener("submit", (e) => {
 //     });
 //   });
 
+// function store() {
+//   var txt = document.getElementById("text-area-first").value;
+//   let sample = document.querySelector("#sample");
+
+//   var txttostore = "<p>" + txt.replace(/\n/g, "</p>\n<p>") + "</p>";
+//   console.log(txttostore);
+
+//   sample.innerHTML = txttostore;
+// }
+
 //real time databses
 db.collection("students").onSnapshot((snapshot) => {
   snapshot.docChanges().forEach((change) => {
     console.log(change.type);
+    let q = change.doc.data().question;
+    let a = change.doc.data().answer;
+    var question = "<p>" + q.replace(/\n/g, "</p>\n<p>") + "</p>";
+    var answer = "<p>" + a.replace(/\n/g, "</p>\n<p>") + "</p>";
+    console.log(question);
+    console.log(answer);
     if (change.type === "added") {
       allQuestins.innerHTML += `<div class="solution-section" data-id=${
         change.doc.id
-      }><h5>${change.doc.data().name}</h5>Question:<p>${
-        change.doc.data().question
-      }<p/>Answer:<p>${
-        change.doc.data().answer
-      }</p><button class="btn btn-danger btn-sm">Delete</button><span class="btn btn-info btn-sm" id="myBtn">Edit</span></div>`;
+      }><h5>${
+        change.doc.data().name
+      }</h5>Question:<p>${question}<p/>Answer:<p>${answer}</p><button class="btn btn-danger btn-sm">Delete</button><span class="btn btn-info btn-sm" id="myBtn">Edit</span></div>`;
       console.log(`${change.doc.id} => ${change.doc.data()}`);
     }
     if (change.type === "removed") {
@@ -97,11 +107,9 @@ db.collection("students").onSnapshot((snapshot) => {
       divUsers.removeChild(div);
       allQuestins.innerHTML += `<div class="solution-section" data-id=${
         change.doc.id
-      }><h5>${change.doc.data().name}</h5>Question:<p>${
-        change.doc.data().question
-      }<p/>Answer:<p>${
-        change.doc.data().answer
-      }</p><button class="btn btn-danger btn-sm">Delete</button><span class="btn btn-info btn-sm" id="myBtn">Edit</span></div>`;
+      }><h5>${
+        change.doc.data().name
+      }</h5>Question:<p>${question}<p/>Answer:<p>${answer}</p><button class="btn btn-danger btn-sm">Delete</button><span class="btn btn-info btn-sm" id="myBtn">Edit</span></div>`;
       console.log(`${change.doc.id} => ${change.doc.data()}`);
     }
   });
